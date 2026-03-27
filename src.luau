@@ -1,4 +1,6 @@
 local Math = {};
+Math.ANY = 0;
+Math.ALL = 1;
 
 function Math.vec3( value )
 	local t = typeof( value );
@@ -40,32 +42,50 @@ function Math.vec3( value )
 	error("CANNOT CONVERT TO VEC3 ***" .. t .. "***", 2);
 end
 
-function Math.compute_dist( vi, vf )
-	local vi_v3 = Math.vec3( vi );
-	local vf_v3 = Math.vec3( vf );
+function Math.compute_dist( xi, xf )
+	local xi_v3 = Math.vec3( xi );
+	local xf_v3 = Math.vec3( xf );
 
-	return ( vf_v3 - vi_v3 ).Magnitude;
+	return ( xf_v3 - xi_v3 ).Magnitude;
 end
 
-function Math.compute_flat_dist( vi, vf )
-	local vi_v3 = Math.vec3( vi );
-	local vf_v3 = Math.vec3( vf );
+function Math.compute_flat_dist( xi, xf )
+	local xi_v3 = Math.vec3( xi );
+	local xf_v3 = Math.vec3( xf );
 
-	local dx = vi_v3.X - vf_v3.X;
-	local dz = vi_v3.Z - vf_v3.Z;
+	local dx = xi_v3.X - xf_v3.X;
+	local dz = xi_v3.Z - xf_v3.Z;
 
 	return math.sqrt( (dx * dx) + (dz * dz) );
 end
 
-function Math.compare_flat( vi, vf, threshold )
-	local vi_v3 = Math.vec3( vi );
-	local vf_v3 = Math.vec3( vf );
+function Math.compare_axis( xi, xf, threshold, mode )
+	local xi_v3 = Math.vec3( xi );
+	local xf_v3 = Math.vec3( xf );
 
-	local dx = vi_v3.X - vf_v3.X;
-	local dz = vi_v3.Z - vf_v3.Z;
+	local dx = math.abs( xf_v3.X - xi_v3.X );
+	local dy = math.abs( xf_v3.Y - xi_v3.Y );
+	local dz = math.abs( xf_v3.Z - xi_v3.Z );
+
+	if ( mode == Math.ANY ) then
+		return dx > threshold or dy > threshold or dz > threshold;
+	end
+	if ( mode == Math.ALL or mode == nil ) then
+		return dx > threshold and dy > threshold and dz > threshold;
+	end
+
+	error("INVALID MODE", 2);
+end
+
+function Math.compare_flat( xi, xf, threshold )
+	local xi_v3 = Math.vec3( xi );
+	local xf_v3 = Math.vec3( xf );
+
+	local dx = xi_v3.X - xf_v3.X;
+	local dz = xi_v3.Z - xf_v3.Z;
 
 	local dist_sqr = (dx * dx) + (dz * dz);
-	return  dist_sqr <= (threshold * threshold);
+	return dist_sqr > (threshold * threshold);
 end
 
 return Math;
