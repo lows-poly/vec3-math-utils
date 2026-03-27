@@ -10,14 +10,16 @@ in:
 1. $x_i$ — initial
 2. $x_f$ — final
 
-out: `number`
+out:
+- `number`
 
 ## compute_flat_dist <br>
 in:
 1. $x_i$ — initial
 2. $x_f$ — final
 
-out: `number`
+out:
+- `number`
 
 ## compare_axis <br>
 in:
@@ -35,4 +37,5 @@ in:
 2. $x_f$ — final
 3. $x_{th}$ — threshold
 
-out: `TRUE` if two points are further apart than a given threshold
+out:
+- `TRUE` if two points are further apart than a given threshold
