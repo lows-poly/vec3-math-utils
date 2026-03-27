@@ -28,6 +28,8 @@ in:
 3. $x_{th}$ — threshold
 4. mode — `ALL` | `ANY`
 
+*`ALL` is a default mode*
+
 out:
 - `TRUE` if `ALL` | `ANY` points are further apart than a given threshold
 
